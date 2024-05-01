@@ -26,6 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ApplicationWindow.hpp
         ApplicationWindow.cpp
         Visuals/MainWindow.hpp
+        Utilities/Bindable.hpp Utilities/Event.hpp Utilities/General.hpp Utilities/Handler.hpp Utilities/Observable.hpp Utilities/Parameter.hpp Utilities/Property.hpp Utilities/Slot.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
