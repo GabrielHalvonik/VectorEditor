@@ -1,6 +1,17 @@
 #include <QApplication>
+#include <QFile>
+
+#include "ApplicationWindow.hpp"
+#include "Utilities/Resources.h"
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    return a.exec();
+
+    QApplication app(argc, argv);
+
+    Utilities::Resources::setStyleSheet(app, ":/Styles/General.qss");
+
+    ApplicationWindow window;
+    window.show();
+
+    return app.exec();
 }

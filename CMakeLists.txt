@@ -22,11 +22,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(VectorEditor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        Visuals/HorizontalBoxLayout.hpp Visuals/VerticalBoxLayout.hpp Visuals/Widget.hpp
         ApplicationWindow.hpp
         ApplicationWindow.cpp
-        Visuals/MainWindow.hpp
         Utilities/Bindable.hpp Utilities/Event.hpp Utilities/General.hpp Utilities/Handler.hpp Utilities/Observable.hpp Utilities/Parameter.hpp Utilities/Property.hpp Utilities/Slot.hpp
+        Visuals/Basics/HorizontalBoxLayout.hpp Visuals/Basics/MainWindow.hpp Visuals/Basics/VerticalBoxLayout.hpp Visuals/Basics/Widget.hpp
+        Visuals/Basics/Label.hpp
+        Visuals/Basics/LineEdit.hpp
+        Resources.qrc
+        Utilities/Resources.h
+        Visuals/Basics/ProgressBar.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

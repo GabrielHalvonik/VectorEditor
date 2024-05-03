@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <any>
 
 template <typename T>
 struct Observable {
@@ -10,16 +11,16 @@ struct Observable {
 
     Observable() { }
 
-    Observable(T arg) : value(arg), asigned(true) {
-        for (auto& item : handlers) {
-            item(arg);
-        }
-    }
+    // Observable(T arg) : value(arg), asigned(true) {
+    //     // for (auto& item : handlers) {
+    //     //     item(arg);
+    //     // }
+    // }
 
     Observable(T&& arg) : value(std::move(arg)), asigned(true) {
-        for (auto& item : handlers) {
-            item(arg);
-        }
+        // for (auto& item : handlers) {
+        //     item(arg);
+        // }
     }
 
     Observable<T>* operator = (T arg) {
@@ -67,3 +68,89 @@ private:
     bool asigned { false };
     T value { };
 };
+
+
+
+struct AnonymousObservable {
+
+    // using HandlerType = std::function<void(std::optional<std::any>)>;
+
+    AnonymousObservable() { }
+
+    // AnonymousObservable(std::optional<std::any> arg) : value(arg), asigned(true) {
+        // for (auto& item : handlers) {
+        //     item(arg);
+        // }
+    // }
+
+    // AnonymousObservable(std::optional<std::any>&& arg) : value(std::move(arg)), asigned(true) {
+        // for (auto& item : handlers) {
+        //     item(arg);
+        // }
+    // }
+
+    AnonymousObservable* operator = (std::optional<std::any> arg) {
+        value = arg;
+        asigned = true;
+
+        for (auto& item : handlers) {
+            item(arg);
+        }
+        return this;
+    }
+
+    void asign(std::optional<std::any> arg) {
+        value = arg;
+        asigned = true;
+
+        for (auto& item : handlers) {
+            item(arg);
+        }
+    }
+
+    void connect(std::function<void(std::optional<std::any>)>&& item) {
+        handlers.push_back(std::move(item));
+    }
+
+    void operator+=(const std::function<void(std::optional<std::any>)>&& item) {
+        handlers.push_back(std::move(item));
+    }
+
+    template <typename S>
+    void bind(S* first, void(S::*second)(std::optional<std::any>)) {
+        connect([first, second](std::optional<std::any> arg){ (first->*second)(arg); });
+    }
+
+    template <typename S>
+    void bind(S* first, void(S::*second)(const std::optional<std::any>&)) {
+        connect([first, second](const std::optional<std::any>& arg){ (first->*second)(arg); });
+    }
+
+    template <typename S, typename P>
+    void bnd(S* first, void(S::*second)(P)) {
+        connect([first, second](const std::optional<std::any>& arg) {
+            if (arg.has_value()) {
+                (first->*second)(std::any_cast<P>(arg.value()));
+            }
+        });
+    }
+
+    template <typename S, typename P>
+    void bnd(S* first, void(S::*second)(const P&)) {
+        connect([first, second](const std::optional<std::any>& arg) {
+            if (arg.has_value()) {
+                (first->*second)(std::any_cast<P>(arg.value()));
+            }
+        });
+    }
+
+    inline std::optional<std::any> getValue() const { return value; }
+    inline bool getAsigned() const { return asigned; }
+
+private:
+    std::vector<std::function<void(std::optional<std::any>)>> handlers;
+    bool asigned { false };
+    std::optional<std::any> value { };
+};
+
+

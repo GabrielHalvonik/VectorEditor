@@ -1,0 +1,25 @@
+QLineEdit {
+    border-radius: 4px;
+}
+
+Visuals--Basics--Label {
+    border-radius: 4px;
+    background: blue;
+}
+
+#Label {
+    border-radius: 4px;
+    background: blue;
+}
+
+#Label[TextLength="Empty"] {
+    background-color: gray;
+}
+
+#Label[TextLength="Fine"] {
+    background-color: green;
+}
+
+#Label[TextLength="Long"] {
+    background-color: red;
+}
