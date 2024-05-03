@@ -24,15 +24,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         ApplicationWindow.hpp
         ApplicationWindow.cpp
-        Utilities/Bindable.hpp Utilities/Event.hpp Utilities/General.hpp Utilities/Handler.hpp Utilities/Observable.hpp Utilities/Parameter.hpp Utilities/Property.hpp Utilities/Slot.hpp
-        Visuals/Basics/HorizontalBoxLayout.hpp Visuals/Basics/MainWindow.hpp Visuals/Basics/VerticalBoxLayout.hpp Visuals/Basics/Widget.hpp
-        Visuals/Basics/Label.hpp
-        Visuals/Basics/LineEdit.hpp
+        Utilities/Bindable.hpp Utilities/Event.hpp Utilities/General.hpp Utilities/Handler.hpp Utilities/Observable.hpp Utilities/Parameter.hpp Utilities/Property.hpp Utilities/Slot.hpp Utilities/Resources.h Utilities/AnonymousObservable.hpp Utilities/Bind.hpp
+        Visuals/Basics/HorizontalBoxLayout.hpp Visuals/Basics/MainWindow.hpp Visuals/Basics/VerticalBoxLayout.hpp Visuals/Basics/Widget.hpp Visuals/Basics/Label.hpp Visuals/Basics/LineEdit.hpp Visuals/Basics/ProgressBar.hpp Visuals/General/Styles.hpp
         Resources.qrc
-        Utilities/Resources.h
-        Visuals/Basics/ProgressBar.hpp
-        Utilities/AnonymousObservable.hpp
-        Utilities/Bind.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

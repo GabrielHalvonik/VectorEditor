@@ -18,29 +18,31 @@ ApplicationWindow::ApplicationWindow() {
                 }),
                 new LineEdit ({
                     .changed = {
-                        [this](auto value) {
+                        delegate {
                             observableText = value;
                         }
                     },
                 }),
                 new Label ({
-                    .text = bind (observableText) into <QString> {
-                        if (value.length() == 0) return { "[Empty]" };
-                        else if (value.length() <= 5) return { value };
-                        else return { value.sliced(0, 5) };
-                    },
+                    .text = (
+                        bind (observableText) into <QString> {
+                            if (value.length() == 0) return { "[Empty]" };
+                            else if (value.length() <= 10) return { value };
+                            else return { value.sliced(0, 10) };
+                        }
+                    )
                 }),
                 new ProgressBar ({
-                    .value = bind (observableText) into <int> {
-                        if (value.length() > 10) return { };
-                        else return { int(value.length() % 11) * 10 };
-                    }
+                    .value = (
+                        bind (observableText) into <int> {
+                            if (value.length() > 10) return { };
+                            else return { int(value.length() % 11) * 10 };
+                        }
+                    ) = 20
                 })
             }
         })
     }));
 }
 
-ApplicationWindow::~ApplicationWindow() {
-
-}
+ApplicationWindow::~ApplicationWindow() { }

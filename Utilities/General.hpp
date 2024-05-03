@@ -62,3 +62,8 @@ using list = std::initializer_list<T>;
 
 #define bind(item) Bind { item }
 #define into += [](auto value) -> std::optional
+
+#define delegate [this](auto value)
+
+// #define qobject \
+// Q_OBJECT
