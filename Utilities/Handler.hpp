@@ -11,7 +11,7 @@ struct Handler : IBindable {
     Handler() { }
     Handler(std::function<void(P)>&& item) : value(std::move(item)), asigned(true) { }
 
-    int bind(void* item) override {
+    int binds(void* item) override {
         if (auto source = reinterpret_cast<T*>(item); asigned and source != nullptr) {
             source->*function() += value;
         }

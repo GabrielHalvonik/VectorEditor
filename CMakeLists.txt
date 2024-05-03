@@ -31,6 +31,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Resources.qrc
         Utilities/Resources.h
         Visuals/Basics/ProgressBar.hpp
+        Utilities/AnonymousObservable.hpp
+        Utilities/Bind.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

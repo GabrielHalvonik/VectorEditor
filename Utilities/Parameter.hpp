@@ -15,14 +15,10 @@ struct Parameter : IBindable {
     Parameter(Observable<P>* item) : observable(item) { value = observable->getValue(); asigned = observable->getAsigned(); }
     Parameter(Observable<P>& item) : observable(&item) { value = observable->getValue(); asigned = observable->getAsigned(); }
 
-    Parameter(Observable<P>&& item) : observable(&std::move(item)) { value = observable->getValue(); asigned = observable->getAsigned(); }
-
     Parameter(AnonymousObservable& item) : bindedObservable(&item) { asigned = bindedObservable->getAsigned(); }
+    Parameter(AnonymousObservable* item) : bindedObservable(item) { asigned = bindedObservable->getAsigned(); }
 
-    Parameter(AnonymousObservable* item) : bindedObservable(item) {
-        /* value = std::any_cast<P>(bindedObservable->getValue().value());*/ asigned = bindedObservable->getAsigned(); }
-
-    int bind(void* item) override {
+    int binds(void* item) override {
         if (T* source = reinterpret_cast<T*>(item); source != nullptr) {
             if (asigned) {
                 (source->*function())(value);
@@ -57,15 +53,10 @@ struct Parameter<const P&, T> : IBindable {
     Parameter(Observable<P>* item) : observable(item) { value = observable->getValue(); asigned = observable->getAsigned(); }
     Parameter(Observable<P>& item) : observable(&item) { value = observable->getValue(); asigned = observable->getAsigned(); }
 
-    Parameter(Observable<P>&& item) : observable(&std::move(item)) { value = observable->getValue(); asigned = observable->getAsigned(); }
-
     Parameter(AnonymousObservable& item) : bindedObservable(&item) { asigned = bindedObservable->getAsigned(); }
+    Parameter(AnonymousObservable* item) : bindedObservable(item) { asigned = bindedObservable->getAsigned(); }
 
-    Parameter(AnonymousObservable* item) : bindedObservable(item) {
-        /* value = std::any_cast<P>(bindedObservable->getValue().value());*/ asigned = bindedObservable->getAsigned(); }
-    // Parameter(Bind<P>* item) : observable(item) { value = observable->getValue(); asigned = observable->getAsigned(); }
-
-    int bind(void* item) override {
+    int binds(void* item) override {
         if (T* source = reinterpret_cast<T*>(item); source != nullptr) {
             if (asigned) {
                 (source->*function())(value);
@@ -75,9 +66,6 @@ struct Parameter<const P&, T> : IBindable {
             }
             if (bindedObservable != nullptr) {
                 bindedObservable->bind(source, function());
-                // observable->connect([source, ]);
-                // connect([first, second](T arg){ (first->*second)(arg); });
-                // bindedObservable->bind(source, function());
             }
         }
         return sizeof(Parameter<const P&, T>);

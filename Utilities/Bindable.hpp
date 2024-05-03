@@ -1,5 +1,5 @@
 #pragma once
 
 struct IBindable {
-    virtual int bind(void* item) = 0;
+    virtual int binds(void* item) = 0;
 };

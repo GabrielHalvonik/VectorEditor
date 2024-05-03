@@ -13,7 +13,7 @@ struct Slot : IBindable {
     Slot() { }
     Slot(std::function<void(P)>&& item) : value(std::move(item)), asigned(true) { }
 
-    int bind(void* item) override {
+    int binds(void* item) override {
         if (auto source = reinterpret_cast<T*>(item); asigned and source != nullptr) {
             QObject::connect(source, function(), value);
         }
@@ -36,7 +36,7 @@ struct Slot<const P&, T> : IBindable {
     Slot() { }
     Slot(std::function<void(const P&)>&& item) : value(std::move(item)), asigned(true) { }
 
-    int bind(void* item) override {
+    int binds(void* item) override {
         if (auto source = reinterpret_cast<T*>(item); asigned and source != nullptr) {
             QObject::connect(source, function(), value);
         }

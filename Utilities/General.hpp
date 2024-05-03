@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Bind.hpp"
 #include "Slot.hpp"
 #include "Event.hpp"
 #include "Handler.hpp"
@@ -20,7 +21,7 @@ using list = std::initializer_list<T>;
 #define parametrized(owner) \
     owner (Parameters&& Parameters) : owner() { \
         for (int i = 0; i < sizeof(Parameters); ) { \
-            i += reinterpret_cast<IBindable*>(reinterpret_cast<std::byte*>(&Parameters) + i)->bind(this); \
+            i += reinterpret_cast<IBindable*>(reinterpret_cast<std::byte*>(&Parameters) + i)->binds(this); \
         } \
     }
 
@@ -57,3 +58,7 @@ using list = std::initializer_list<T>;
 
 #define property Property
 #define observable Observable
+
+
+#define bind(item) Bind { item }
+#define into += [](auto value) -> std::optional
