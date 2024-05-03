@@ -31,11 +31,9 @@ struct Parameter : IBindable {
                 observable->bind(source, function());
             }
             if (bindedObservable != nullptr) {
-                qInfo() << "??????";
-                bindedObservable->bnd<T, P>(source, function());
+                bindedObservable->bind(source, function());
             }
         }
-        qInfo() << "szof: " << sizeof(Parameter<P, T>);
         return sizeof(Parameter<P, T>);
     }
 
@@ -76,13 +74,12 @@ struct Parameter<const P&, T> : IBindable {
                 observable->bind(source, function());
             }
             if (bindedObservable != nullptr) {
-                bindedObservable->bnd<T, P>(source, function());
+                bindedObservable->bind(source, function());
                 // observable->connect([source, ]);
                 // connect([first, second](T arg){ (first->*second)(arg); });
                 // bindedObservable->bind(source, function());
             }
         }
-        qInfo() << "szof: " << sizeof(Parameter<const P&, T>);
         return sizeof(Parameter<const P&, T>);
     }
 

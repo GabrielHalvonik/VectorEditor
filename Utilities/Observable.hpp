@@ -89,7 +89,7 @@ struct AnonymousObservable {
         // }
     // }
 
-    AnonymousObservable* operator = (std::optional<std::any> arg) {
+    AnonymousObservable* operator = (std::any arg) {
         value = arg;
         asigned = true;
 
@@ -99,7 +99,7 @@ struct AnonymousObservable {
         return this;
     }
 
-    void asign(std::optional<std::any> arg) {
+    void asign(std::any arg) {
         value = arg;
         asigned = true;
 
@@ -108,49 +108,43 @@ struct AnonymousObservable {
         }
     }
 
-    void connect(std::function<void(std::optional<std::any>)>&& item) {
+    void connect(std::function<void(std::any)>&& item) {
         handlers.push_back(std::move(item));
     }
 
-    void operator+=(const std::function<void(std::optional<std::any>)>&& item) {
+    void operator+=(const std::function<void(std::any)>&& item) {
         handlers.push_back(std::move(item));
-    }
-
-    template <typename S>
-    void bind(S* first, void(S::*second)(std::optional<std::any>)) {
-        connect([first, second](std::optional<std::any> arg){ (first->*second)(arg); });
-    }
-
-    template <typename S>
-    void bind(S* first, void(S::*second)(const std::optional<std::any>&)) {
-        connect([first, second](const std::optional<std::any>& arg){ (first->*second)(arg); });
     }
 
     template <typename S, typename P>
-    void bnd(S* first, void(S::*second)(P)) {
-        connect([first, second](const std::optional<std::any>& arg) {
+    void bind(S* first, void(S::*second)(P)) {
+        connect([first, second](const std::any& arg) {
             if (arg.has_value()) {
-                (first->*second)(std::any_cast<P>(arg.value()));
+                if (auto val = std::any_cast<std::optional<P>>(arg); val.has_value()) {
+                    (first->*second)(val.value());
+                }
             }
         });
     }
 
     template <typename S, typename P>
-    void bnd(S* first, void(S::*second)(const P&)) {
-        connect([first, second](const std::optional<std::any>& arg) {
+    void bind(S* first, void(S::*second)(const P&)) {
+        connect([first, second](const std::any& arg) {
             if (arg.has_value()) {
-                (first->*second)(std::any_cast<P>(arg.value()));
+                if (auto val = std::any_cast<std::optional<P>>(arg); val.has_value()) {
+                    (first->*second)(val.value());
+                }
             }
         });
     }
 
-    inline std::optional<std::any> getValue() const { return value; }
+    inline std::any getValue() const { return value; }
     inline bool getAsigned() const { return asigned; }
 
 private:
-    std::vector<std::function<void(std::optional<std::any>)>> handlers;
+    std::vector<std::function<void(std::any)>> handlers;
     bool asigned { false };
-    std::optional<std::any> value { };
+    std::any value { };
 };
 
 

@@ -60,7 +60,7 @@ struct Bind {
     //     return target;
     // }
 
-    AnonymousObservable* operator +=(std::function<std::optional<std::any>(T val)>&& fun) {
+    AnonymousObservable* operator +=(std::function<std::any(T val)>&& fun) {
         AnonymousObservable* target = new AnonymousObservable();
 
         source->connect([target, fun = std::move(fun)](T p) {
@@ -83,7 +83,7 @@ struct Bind {
 
 // #define when(observable) When { observable } += [](auto value) -> std::optional
 #define bind(observable) Bind { observable }
-#define into += [](auto value) -> std::optional<std::any>
+#define into += [](auto value) -> std::optional
 
 void tst(Observable<std::optional<std::any>>* obs) {
 
@@ -185,17 +185,17 @@ ApplicationWindow::ApplicationWindow() {
                     },
                 }),
                 new Label ({
-                    .text = bind (observableText) into {
-                        if (value.length() == 0) return { QString("[Empty]") };
+                    .text = bind (observableText) into <QString> {
+                        if (value.length() == 0) return { "[Empty]" };
                         else if (value.length() <= 5) return { value };
                         else return { value.sliced(0, 5) };
                     },
                 }),
                 new ProgressBar ({
-                    .value = *(bind (observableText) into {
+                    .value = bind (observableText) into <int> {
                         if (value.length() > 10) return { };
                         else return { int(value.length() % 11) * 10 };
-                    }) = 100
+                    }
                 })
             }
         })
