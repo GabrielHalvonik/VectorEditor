@@ -9,15 +9,17 @@ namespace Visuals::Basics {
     struct HorizontalBoxLayout : QHBoxLayout {
 
         parametrize (HorizontalBoxLayout) {
-            parameter <list<QWidget*>> { affect(HorizontalBoxLayout::addMultipleWidget) } items;
+            parameter <const list<QWidget*>&> { affect(HorizontalBoxLayout::addMultipleWidget) } items;
         };
 
         HorizontalBoxLayout() { }
 
         virtual ~HorizontalBoxLayout() { }
 
-        void addMultipleWidget(list<QWidget*> widgets) {
-            for (auto widget : widgets) {
+
+
+        void addMultipleWidget(const list<QWidget*>& widgets) {
+            for (QWidget* widget : widgets) {
                 this->addWidget(widget);
             }
         }

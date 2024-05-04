@@ -7,11 +7,13 @@
 struct ApplicationWindow : QMainWindow {
 
     ApplicationWindow();
+
     virtual ~ApplicationWindow();
 
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+
 private:
-    Observable<int> observableNumber { };
-    Observable<QString> observableText { };
-    Observable<QString> observableText2 { "P" };
-    Event <QString> event;
+    observable <QSize> windowSizeObservable;
+    observable <const QSize&> editorViewSizeObservable;
 };

@@ -22,11 +22,23 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(VectorEditor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        ApplicationWindow.hpp
-        ApplicationWindow.cpp
-        Utilities/Bindable.hpp Utilities/Event.hpp Utilities/General.hpp Utilities/Handler.hpp Utilities/Observable.hpp Utilities/Parameter.hpp Utilities/Property.hpp Utilities/Slot.hpp Utilities/Resources.h Utilities/AnonymousObservable.hpp Utilities/Bind.hpp
+        ApplicationWindow.hpp ApplicationWindow.cpp
+        Utilities/Bindable.hpp Utilities/Event.hpp Utilities/General.hpp Utilities/Handler.hpp Utilities/Observable.hpp Utilities/Parameter.hpp Utilities/Property.hpp Utilities/Slot.hpp Utilities/Resources.hpp Utilities/AnonymousObservable.hpp Utilities/Bind.hpp
         Visuals/Basics/HorizontalBoxLayout.hpp Visuals/Basics/MainWindow.hpp Visuals/Basics/VerticalBoxLayout.hpp Visuals/Basics/Widget.hpp Visuals/Basics/Label.hpp Visuals/Basics/LineEdit.hpp Visuals/Basics/ProgressBar.hpp Visuals/General/Styles.hpp
+        Visuals/Custom/Label.hpp
         Resources.qrc
+        TestingWindow.hpp TestingWindow.cpp
+        Visuals/Basics/BoxLayout.hpp
+        Visuals/Basics/Frame.hpp
+        Visuals/Basics/DockWidget.hpp
+        Visuals/Basics/GraphicsScene.hpp
+        Visuals/Basics/GraphicsItem.hpp
+        Visuals/Basics/GraphicsEllipseItem.hpp
+        Visuals/Basics/StackedLayout.hpp
+        Visuals/Basics/GraphicsView.hpp
+        Visuals/Custom/EditorToolBar.hpp
+        Visuals/Basics/ToolBar.hpp
+        Visuals/Custom/VectorEditorView.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

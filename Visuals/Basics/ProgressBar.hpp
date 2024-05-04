@@ -6,16 +6,16 @@
 
 namespace Visuals::Basics {
 
-struct ProgressBar : QProgressBar {
+    struct ProgressBar : QProgressBar {
 
-    parametrize (ProgressBar) {
-        parameter <int> { affect (QProgressBar::setValue); } value;
+        parametrize (ProgressBar) {
+            parameter <int> { affect (QProgressBar::setValue) } value;
+        };
+
+        ProgressBar() { }
+
+        virtual ~ProgressBar() { }
+
     };
-
-    ProgressBar() { }
-
-    virtual ~ProgressBar() { }
-
-};
 
 }

@@ -1,20 +1,22 @@
 #pragma once
 
-#include <QVBoxLayout>
+#include <QBoxLayout>
 
 #include "../../Utilities/General.hpp"
 
 namespace Visuals::Basics {
 
-    struct VerticalBoxLayout : QVBoxLayout {
+    struct BoxLayout : QBoxLayout {
 
-        parametrize (VerticalBoxLayout) {
-            parameter <const list<QWidget*>&> { affect(VerticalBoxLayout::addMultipleWidget) } items;
+        parametrize (BoxLayout) {
+            parameter <const list<QWidget*>&> { affect(BoxLayout::addMultipleWidget) } items;
         };
 
-        VerticalBoxLayout() { }
+        BoxLayout() : QBoxLayout(Direction::TopToBottom) { }
 
-        virtual ~VerticalBoxLayout() { }
+        virtual ~BoxLayout() { }
+
+
 
         void addMultipleWidget(const list<QWidget*>& widgets) {
             for (QWidget* widget : widgets) {
@@ -25,3 +27,5 @@ namespace Visuals::Basics {
     };
 
 }
+
+

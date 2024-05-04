@@ -23,3 +23,14 @@ Visuals--Basics--Label {
 #Label[TextLength="Long"] {
     background-color: red;
 }
+
+
+QDockWidget {
+    margin-top: 10px;
+    background-color: red;
+}
+
+#EditorToolBar {
+    border-radius: 6px;
+    background-color: rgba(50, 50, 55, 255);
+}
