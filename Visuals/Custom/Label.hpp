@@ -13,7 +13,9 @@ namespace Visuals::Custom {
     struct Label : QLabel {
 
         parametrize (Label) {
-            parameter <const QString&> { affect (Label::setText); } text;
+            parameter <int> { affect (Label::setFixedWidth) } width;
+            parameter <int> { affect (Label::setFixedWidth) } height;
+            parameter <const QString&> { affect (Label::setText) } text;
         };
 
         Label() {

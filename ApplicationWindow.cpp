@@ -75,6 +75,13 @@ ApplicationWindow::ApplicationWindow() {
         // .sizeChanged = { [this](const QSize& a) { qInfo() << a.height() << "aaa"; } },
     }));
 
+
+
+
+
+
+
+
     // QFrame* centralFrame = new QFrame(this);
     // QGraphicsBlurEffect* p_blur = new QGraphicsBlurEffect;
     // p_blur->setBlurRadius(30);
