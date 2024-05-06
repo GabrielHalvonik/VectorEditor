@@ -1,22 +1,28 @@
 #pragma once
 
+#pragma once
+
 #include <QToolBar>
 
 #include "../../Utilities/General.hpp"
 
 namespace Visuals::Basics {
 
-    struct ToolBar : QToolBar {
+    struct RightToolBar : QToolBar {
 
-        parametrize (ToolBar) {
+        parametrize (RightToolBar) {
             parameter <int> { affect(QToolBar::setFixedWidth) } width;
             parameter <int> { affect(QToolBar::setFixedHeight) } height;
-            parameter <const list<QAction*>&> { affect(ToolBar::addActions) } actions;
+            parameter <const list<QAction*>&> { affect(RightToolBar::addActions) } actions;
         };
 
-        ToolBar() { }
+        RightToolBar() {
+            QObject::setObjectName("RightToolBar");
+            QToolBar::setMovable(false);
+            QToolBar::setAllowedAreas(Qt::ToolBarArea::RightToolBarArea);
+        }
 
-        virtual ~ToolBar() { }
+        virtual ~RightToolBar() { }
 
 
 

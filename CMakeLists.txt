@@ -36,9 +36,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Visuals/Basics/GraphicsEllipseItem.hpp
         Visuals/Basics/StackedLayout.hpp
         Visuals/Basics/GraphicsView.hpp
-        Visuals/Custom/EditorToolBar.hpp
+        Visuals/Custom/LeftToolBar.hpp
         Visuals/Basics/ToolBar.hpp
         Visuals/Custom/VectorEditorView.hpp
+        Visuals/Basics/StatusBar.hpp
+        Visuals/Custom/TopToolBar.hpp
+        Visuals/Custom/RightToolBar.hpp
+        Visuals/Basics/ToolButton.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -5,11 +5,14 @@
 #include "Visuals/Basics/Widget.hpp"
 #include "Visuals/Basics/ToolBar.hpp"
 #include "Visuals/Basics/LineEdit.hpp"
+#include "Visuals/Basics/StatusBar.hpp"
 #include "Visuals/Basics/BoxLayout.hpp"
+#include "Visuals/Custom/TopToolBar.hpp"
 #include "Visuals/Basics/DockWidget.hpp"
 #include "Visuals/Basics/ProgressBar.hpp"
+#include "Visuals/Custom/LeftToolBar.hpp"
 #include "Visuals/Basics/GraphicsView.hpp"
-#include "Visuals/Custom/EditorToolBar.hpp"
+#include "Visuals/Custom/RightToolBar.hpp"
 #include "Visuals/Basics/GraphicsScene.hpp"
 #include "Visuals/Custom/VectorEditorView.hpp"
 #include "Visuals/Basics/VerticalBoxLayout.hpp"
@@ -24,20 +27,34 @@
 #include <QList>
 #include <QIcon>
 #include <QSize>
+#include <QStatusBar>
 
 using namespace Visuals::Basics;
 using namespace Visuals::Custom;
 
 ApplicationWindow::ApplicationWindow() {
 
+    this->setStatusBar(new StatusBar ({
+        .height = 24
+    }));
     // this->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea,  new QDockWidget(), Qt::Orientation::Vertical);
     this->setMinimumSize(600, 400);
     // new ToolBar ({  });
-    this->addToolBar(new ToolBar ({
+    this->addToolBar(Qt::ToolBarArea::TopToolBarArea, new TopToolBar ({
+        .height = 34,
         .actions = {
             new QAction (QIcon::fromTheme(QIcon::ThemeIcon::EditUndo), "Undo"),
-                                      new QAction (QIcon::fromTheme(QIcon::ThemeIcon::MediaPlaybackPause), "Redo"),
-                                      new QAction (QIcon::fromTheme(QIcon::ThemeIcon::EditRedo), "Redo"),
+            new QAction (QIcon::fromTheme(QIcon::ThemeIcon::MediaPlaybackPause), "Redo"),
+            new QAction (QIcon::fromTheme(QIcon::ThemeIcon::EditRedo), "Redo"),
+        }
+    }));
+
+    this->addToolBar(Qt::ToolBarArea::RightToolBarArea, new RightToolBar ({
+        .width = 300,
+        .actions = {
+            new QAction (QIcon::fromTheme(QIcon::ThemeIcon::EditUndo), "Undo"),
+            new QAction (QIcon::fromTheme(QIcon::ThemeIcon::MediaPlaybackPause), "Redo"),
+            new QAction (QIcon::fromTheme(QIcon::ThemeIcon::EditRedo), "Redo"),
         }
     }));
 
@@ -47,7 +64,7 @@ ApplicationWindow::ApplicationWindow() {
     this->setCentralWidget(new VectorEditorView ({
         .scene = scene,
         .items = {
-            new EditorToolBar ({
+            new LeftToolBar ({
                 .geometry = bind (editorViewSizeObservable) into <QRect> {
                     return QRect(10, 10, 32, value.height() - 20);
                     // return QRect(10, value.height() / 2 - value.height()/2 + 100, 32, value.height() - 200);

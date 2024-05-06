@@ -24,13 +24,28 @@ Visuals--Basics--Label {
     background-color: red;
 }
 
-
 QDockWidget {
     margin-top: 10px;
     background-color: red;
 }
 
-#EditorToolBar {
+QStatusBar {
+    border-top: 1px solid rgba(80, 80, 80, 255);
+    background-color: rgba(50, 50, 55, 255);
+}
+
+#TopToolBar {
+    border-bottom: 1px solid rgba(80, 80, 80, 255);
+    background-color: rgba(50, 50, 55, 255);
+}
+
+#RightToolBar {
+    border-left: 1px solid rgba(80, 80, 80, 255);
+    background-color: rgba(50, 50, 55, 255);
+}
+
+#LeftToolBar {
+    border: 1px solid rgba(80, 80, 80, 255);
     border-radius: 6px;
     background-color: rgba(50, 50, 55, 255);
 }
