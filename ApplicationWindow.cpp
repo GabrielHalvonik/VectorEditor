@@ -70,6 +70,12 @@ ApplicationWindow::ApplicationWindow() {
                     // return QRect(10, value.height() / 2 - value.height()/2 + 100, 32, value.height() - 200);
                 }
             }),
+            new LeftToolBar ({
+                .geometry = bind (editorViewSizeObservable) into <QRect> {
+                    return QRect(value.width() / 2 - 75, value.height() - 42, 150, 32);
+                    // return QRect(10, value.height() / 2 - value.height()/2 + 100, 32, value.height() - 200);
+                }
+            }),
         },
         .sizeChanged = editorViewSizeObservable,
         // .sizeChanged = { [this](const QSize& a) { qInfo() << a.height() << "aaa"; } },

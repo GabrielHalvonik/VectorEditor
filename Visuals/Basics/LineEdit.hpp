@@ -9,7 +9,7 @@ namespace Visuals::Basics {
     struct LineEdit : QLineEdit {
 
         parametrize (LineEdit) {
-            connection <const QString&, QLineEdit> { subscribe (QLineEdit::textEdited) } changed;
+            connection <const QString&, QLineEdit> { subscribe (QLineEdit::textEdited) } textChanged;
         };
 
         LineEdit() { }

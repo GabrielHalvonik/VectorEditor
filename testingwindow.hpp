@@ -11,7 +11,7 @@ struct TestingWindow : QMainWindow {
     virtual ~TestingWindow();
 
 private:
-    Observable<int> observableNumber { };
+    observable <int> observableNumber { };
     Observable<QString> observableText { };
     Observable<QString> observableText2 { "P" };
     Event <QString> event;

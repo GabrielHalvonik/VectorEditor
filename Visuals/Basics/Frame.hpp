@@ -11,6 +11,7 @@ namespace Visuals::Basics {
         parametrize (Frame) {
             parameter <QLayout*> { affect(QFrame::setLayout) } layout;
             parameter <const QRect&> { affect(QFrame::setGeometry) } geometry;
+            parameter <QWidget*> { affect(QFrame::setParent) } parent;
         };
 
         Frame() { }

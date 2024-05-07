@@ -13,7 +13,9 @@ struct ToolButton : QToolButton {
         parameter <int> { affect(QToolBar::setFixedHeight) } height;
     };
 
-    ToolButton() { }
+    ToolButton() {
+
+    }
 
     virtual ~ToolButton() { }
 

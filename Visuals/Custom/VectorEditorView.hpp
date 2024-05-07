@@ -13,8 +13,6 @@ namespace Visuals::Basics {
             parameter <QGraphicsScene*> { affect (QGraphicsView::setScene) } scene;
             parameter <const list<QWidget*>&> { affect (VectorEditorView::addMultipleWidget) } items;
             handler <const QSize&> { attach (VectorEditorView::sizeChanged) } sizeChanged;
-
-            // struct : Handler { using Handler::Handler;
         };
 
         VectorEditorView() {
@@ -38,6 +36,20 @@ namespace Visuals::Basics {
         void resizeEvent(QResizeEvent* event) override {
             QGraphicsView::resizeEvent(event);
             sizeChanged(event->size());
+        }
+
+        void drawBackground(QPainter* painter, const QRectF& rect) override {
+            QGraphicsView::drawBackground(painter, rect);
+            QPen pen(QColor::fromRgb(55, 55, 55));
+            pen.setWidth(2);
+            pen.setCapStyle(Qt::PenCapStyle::RoundCap);
+            painter->setPen(pen);
+
+            for (int i = 25; i < this->scene()->width(); i += 50) {
+                for (int j = 25; j < this->scene()->height(); j += 50) {
+                    painter->drawPoint(i, j);
+                }
+            }
         }
 
     private:
