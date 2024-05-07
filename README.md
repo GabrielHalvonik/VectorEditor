@@ -36,7 +36,7 @@ In order to use object construction with [designated initializers](https://en.cp
 ### there are 3 possible parameter types:
 #### (these three parameterized types can be combined or omitted when initializing the object)
 
-- ### (1) parameter (general C++)
+- ### (1) Parameter (general C++)
   - structure:
     ```c++
     parametrize (ClassName) {
@@ -73,7 +73,7 @@ In order to use object construction with [designated initializers](https://en.cp
        });
     ```
 
-- ### (2) Event  (general C++)
+- ### (2) Handler  (general C++)
   - structure:
     ```c++
     parametrize (ClassName) {
@@ -97,7 +97,7 @@ In order to use object construction with [designated initializers](https://en.cp
        });
     ```
 
- - ### (3) Event  (Qt-framework specific)
+ - ### (3) Connection  (Qt-framework specific)
     - structure:
       ```c++
       parametrize (ClassName) {
