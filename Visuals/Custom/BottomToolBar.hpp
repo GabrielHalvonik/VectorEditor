@@ -4,7 +4,7 @@
 #include <QActionGroup>
 #include <QToolBar>
 #include <QStackedLayout>
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QToolButton>
 #include <QGraphicsItem>
 #include <QScrollArea>
@@ -21,9 +21,9 @@
 
 namespace Visuals::Basics {
 
-    struct LeftToolBar : QScrollArea {
+    struct BottomToolBar : QWidget {
 
-        parametrize (LeftToolBar) {
+        parametrize (BottomToolBar) {
             parameter <int> { affect (QToolBar::setFixedWidth) } width;
             parameter <int> { affect (QToolBar::setFixedHeight) } height;
             parameter <QLayout*> { affect (QWidget::setLayout) } layout;
@@ -31,18 +31,15 @@ namespace Visuals::Basics {
             // parameter <const list<QAction*>&> { affect(LeftToolBar::addActions) } actions;
         };
 
-        LeftToolBar() : QScrollArea() {
-            QObject::setObjectName("LeftToolBar");
+        BottomToolBar() : QWidget() {
+            QObject::setObjectName("BottomToolBar");
             // this->setFixedSize(32, 12*32);
             // auto area = new QScrollArea();
-            this->horizontalScrollBar()->setDisabled(true);
-            this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 
             // this->setStyleSheet("QWidget { background-color: transparent; } QScrollArea { background-color: red; }");
             // area->setFixedSize(32, 14*32);
-            auto w = new QWidget();
-            auto layout = new QVBoxLayout();
+            auto layout = new QHBoxLayout();
             layout->setSizeConstraint(QLayout::SizeConstraint::SetFixedSize);
             layout->setContentsMargins(0, 0, 0, 0);
             layout->setSpacing(0);
@@ -204,8 +201,7 @@ namespace Visuals::Basics {
                 // tb->setParent(this);
             }
 
-            w->setLayout(layout);
-            this->setWidget(w);
+            this->setLayout(layout);
             // area->setWidget(this);
             // w->setParent(this);
             // this->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
@@ -226,7 +222,7 @@ namespace Visuals::Basics {
 
         }
 
-        virtual ~LeftToolBar() { }
+        virtual ~BottomToolBar() { }
 
 
 

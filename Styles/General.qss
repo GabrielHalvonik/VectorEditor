@@ -49,3 +49,11 @@ QStatusBar {
     border-radius: 6px;
     background-color: rgba(50, 50, 55, 255);
 }
+
+#BottomToolBar {
+    border: 1px solid rgba(80, 80, 80, 255);
+    border-radius: 6px;
+    background-color: rgba(50, 50, 55, 255);
+}
+
+#LeftToolBar QWidget { background-color: transparent; }
