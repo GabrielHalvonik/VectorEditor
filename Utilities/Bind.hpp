@@ -9,12 +9,12 @@ struct Bind {
 
     Bind(Observable<T>& value) : source(&value) { }
 
-    AnonymousObservable& operator +=(std::function<std::any(T val)>&& fun) {
+    AnonymousObservable& operator +=(std::function<std::any(void* source, T val)>&& fun) {
         AnonymousObservable* target = new AnonymousObservable();
         source->registerAnonymousObservable(target);
 
-        source->connect([target, fun = std::move(fun)](T p) {
-            target->asign(fun(p));
+        source->connect([target, fun = std::move(fun)](T value) {
+            target->asign(fun(target->source, value));
         });
 
         return *target;
