@@ -67,14 +67,18 @@ ApplicationWindow::ApplicationWindow() {
         .items = {
             new LeftToolBar ({
                 .geometry = bind (editorViewSizeObservable) into <QRect> {
-// return QRect(10, 10, 32, 12 * 32);
+                        // return QRect(10, 10, 32, 12 * 32);
                     return QRect(10, 10, 34, value.height() - 20);
                     // return QRect(10, value.height() / 2 - value.height()/2 + 100, 34, value.height() - 200);
                 }
             }),
             new BottomToolBar ({
                 .geometry = bind (editorViewSizeObservable) into <QRect> {
-                    return QRect(value.width() / 2 - 75, value.height() - 42, 150, 32);
+                    if (BottomToolBar* self = reinterpret_cast<BottomToolBar*>(source); self != nullptr) {
+                        return QRect(value.width() / 2 - self->width() / 2, value.height() - 42, 150, 32);
+                    }
+                    return { };
+// return QRect(value.width() / 2 - source, value.height() - 42, 150, 32);
                     // return QRect(10, value.height() / 2 - value.height()/2 + 100, 32, value.height() - 200);
                 }
             }),

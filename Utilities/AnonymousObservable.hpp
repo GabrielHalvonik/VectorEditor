@@ -10,7 +10,6 @@ struct AnonymousObservable {
 
     AnonymousObservable() { }
 
-
     AnonymousObservable& operator = (std::any arg) {
         value = arg;
         asigned = true;
@@ -40,6 +39,8 @@ struct AnonymousObservable {
 
     template <typename S, typename P>
     void bind(S* first, void(S::*second)(P)) {
+        source = reinterpret_cast<void*>(first);
+
         connect([first, second](const std::any& arg) {
             if (arg.has_value()) {
                 if (auto val = std::any_cast<std::optional<P>>(arg); val.has_value()) {
@@ -51,6 +52,8 @@ struct AnonymousObservable {
 
     template <typename S, typename P>
     void bind(S* first, void(S::*second)(const P&)) {
+        source = reinterpret_cast<void*>(first);
+
         connect([first, second](const std::any& arg) {
             if (arg.has_value()) {
                 if (auto val = std::any_cast<std::optional<P>>(arg); val.has_value()) {
@@ -63,6 +66,7 @@ struct AnonymousObservable {
     inline std::any getValue() const { return value; }
     inline bool getAsigned() const { return asigned; }
 
+    void* source { nullptr };
 private:
     std::vector<HandlerType> handlers;
     bool asigned { false };
