@@ -91,7 +91,7 @@ struct Observable<const T&> {
         }
     }
 
-    Observable<T>& operator = (T arg) {
+    Observable<const T&>& operator = (const T& arg) {
         value = arg;
         asigned = true;
 

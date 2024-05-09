@@ -10,6 +10,7 @@ namespace Visuals::Basics {
     struct VectorEditorView : QGraphicsView {
 
         parametrize (VectorEditorView) {
+            parameter <QWidget*> { affect (QWidget::setParent) } parent;
             parameter <QGraphicsScene*> { affect (QGraphicsView::setScene) } scene;
             parameter <const list<QWidget*>&> { affect (VectorEditorView::addMultipleWidget) } items;
             handler <const QSize&> { attach (VectorEditorView::sizeChanged) } sizeChanged;
@@ -40,14 +41,16 @@ namespace Visuals::Basics {
 
         void drawBackground(QPainter* painter, const QRectF& rect) override {
             QGraphicsView::drawBackground(painter, rect);
-            QPen pen(QColor::fromRgb(55, 55, 55));
-            pen.setWidth(2);
-            pen.setCapStyle(Qt::PenCapStyle::RoundCap);
-            painter->setPen(pen);
+
+            painter->fillRect(scene()->sceneRect(), QColor::fromRgb(55, 55, 60));
+
+            painter->setPen(QPen(QBrush(QColor::fromRgb(100, 100, 100)), 2, Qt::PenStyle::SolidLine, Qt::PenCapStyle::RoundCap));
 
             for (int i = 25; i < this->scene()->width(); i += 50) {
                 for (int j = 25; j < this->scene()->height(); j += 50) {
-                    painter->drawPoint(i, j);
+                    if ((i > rect.x() and i < rect.x() + rect.width()) and (j > rect.y() and j < rect.y() + rect.height())) {
+                        painter->drawPoint(i, j);
+                    }
                 }
             }
         }

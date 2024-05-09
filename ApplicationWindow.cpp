@@ -17,6 +17,7 @@
 #include "Visuals/Basics/GraphicsScene.hpp"
 #include "Visuals/Custom/VectorEditorView.hpp"
 #include "Visuals/Basics/VerticalBoxLayout.hpp"
+#include "Visuals/Custom/VectorEditor.hpp"
 
 #include <QResizeEvent>
 #include <QFrame>
@@ -59,53 +60,9 @@ ApplicationWindow::ApplicationWindow() {
         }
     }));
 
-    auto scene = new QGraphicsScene(0, 0, 2000, 2000);
-    QGraphicsItem* it = scene->addText("pass");
-    it->setPos(200, 200);
-    this->setCentralWidget(new VectorEditorView ({
-        .scene = scene,
-        .items = {
-            new LeftToolBar ({
-                .geometry = bind (editorViewSizeObservable) into <QRect> {
-                        // return QRect(10, 10, 32, 12 * 32);
-                    return QRect(10, 10, 34, value.height() - 20);
-                    // return QRect(10, value.height() / 2 - value.height()/2 + 100, 34, value.height() - 200);
-                }
-            }),
-            new BottomToolBar ({
-                .geometry = bind (editorViewSizeObservable) into <QRect> {
-                    if (BottomToolBar* self = reinterpret_cast<BottomToolBar*>(source); self != nullptr) {
-                        return QRect(value.width() / 2 - self->width() / 2, value.height() - 42, 150, 32);
-                    }
-                    return { };
-// return QRect(value.width() / 2 - source, value.height() - 42, 150, 32);
-                    // return QRect(10, value.height() / 2 - value.height()/2 + 100, 32, value.height() - 200);
-                }
-            }),
-        },
-        .sizeChanged = editorViewSizeObservable,
-        // .sizeChanged = { [this](const QSize& a) { qInfo() << a.height() << "aaa"; } },
-    }));
 
+    QMainWindow::setCentralWidget(new VectorEditor ());
 
-
-
-
-
-
-
-    // QFrame* centralFrame = new QFrame(this);
-    // QGraphicsBlurEffect* p_blur = new QGraphicsBlurEffect;
-    // p_blur->setBlurRadius(30);
-    // p_blur->setBlurHints(QGraphicsBlurEffect::QualityHint);
-    // centralFrame->setGraphicsEffect(p_blur);
-    // auto l = new QStackedLayout();
-    // l->addWidget(new QPushButton());
-    // centralFrame->setLayout(l);
-    // centralFrame->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
-    // centralFrame->setMidLineWidth(3);
-
-    // centralFrame->setGeometry(10, 10, 48, 800);
 }
 
 ApplicationWindow::~ApplicationWindow() { }
