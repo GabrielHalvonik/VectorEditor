@@ -5,7 +5,7 @@
 
 #include "../../Utilities/General.hpp"
 
-namespace Visuals::Basics {
+namespace Visuals::Custom {
 
     struct VectorEditorView : QGraphicsView {
 
