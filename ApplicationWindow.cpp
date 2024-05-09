@@ -13,11 +13,12 @@
 #include "Visuals/Custom/LeftToolBar.hpp"
 #include "Visuals/Basics/GraphicsView.hpp"
 #include "Visuals/Custom/RightToolBar.hpp"
+#include "Visuals/Custom/VectorEditor.hpp"
 #include "Visuals/Custom/BottomToolBar.hpp"
 #include "Visuals/Basics/GraphicsScene.hpp"
 #include "Visuals/Custom/VectorEditorView.hpp"
 #include "Visuals/Basics/VerticalBoxLayout.hpp"
-#include "Visuals/Custom/VectorEditor.hpp"
+#include "Visuals/Basics/HorizontalBoxLayout.hpp"
 
 #include <QResizeEvent>
 #include <QFrame>
@@ -30,11 +31,22 @@
 #include <QIcon>
 #include <QSize>
 #include <QStatusBar>
+#include <QMenuBar>
+#include <QSlider>
+#include <QWindow>
 
 using namespace Visuals::Basics;
 using namespace Visuals::Custom;
 
 ApplicationWindow::ApplicationWindow() {
+    this->setWindowFlag(Qt::WindowType::CustomizeWindowHint,  true);
+    this->menuBar()->setLayout(new HorizontalBoxLayout ({
+        .items = {
+                                                            new QSlider(Qt::Orientation::Horizontal),
+                                                            new QSlider(Qt::Orientation::Horizontal),
+                                                            new QSlider(Qt::Orientation::Horizontal),
+        }
+    }));
 
     this->setStatusBar(new StatusBar ({
         .height = 24

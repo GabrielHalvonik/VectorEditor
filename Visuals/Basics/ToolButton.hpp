@@ -6,19 +6,19 @@
 
 namespace Visuals::Basics {
 
-struct ToolButton : QToolButton {
+    struct ToolButton : QToolButton {
 
-    parametrize (ToolButton) {
-        parameter <int> { affect(QToolBar::setFixedWidth) } width;
-        parameter <int> { affect(QToolBar::setFixedHeight) } height;
+        parametrize (ToolButton) {
+            parameter <int> { affect (QToolBar::setFixedWidth) } width;
+            parameter <int> { affect (QToolBar::setFixedHeight) } height;
+        };
+
+        ToolButton() {
+
+        }
+
+        virtual ~ToolButton() { }
+
     };
-
-    ToolButton() {
-
-    }
-
-    virtual ~ToolButton() { }
-
-};
 
 }

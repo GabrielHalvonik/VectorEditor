@@ -13,13 +13,13 @@
 #include <QIconEngine>
 #include <QColorDialog>
 
-#include "../Basics/ToolButton.hpp"
-
 #include "../../Utilities/General.hpp"
+
+#include "../Basics/ToolButton.hpp"
 
 #include "ToolBarSeparator.hpp"
 
-namespace Visuals::Basics {
+namespace Visuals::Custom {
 
     struct BottomToolBar : QWidget {
 

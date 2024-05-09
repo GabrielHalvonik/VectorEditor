@@ -19,7 +19,9 @@
 
 #include "ToolBarSeparator.hpp"
 
-namespace Visuals::Basics {
+using namespace Visuals::Basics;
+
+namespace Visuals::Custom {
 
     struct LeftToolBar : QScrollArea {
 

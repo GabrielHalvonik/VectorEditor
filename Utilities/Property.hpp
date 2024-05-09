@@ -25,6 +25,10 @@ struct Property {
         return this->value;
     }
 
+    operator T () {
+        return value;
+    }
+
 private:
     T value { };
     bool asigned { false };
@@ -46,6 +50,10 @@ struct Property<T*> {
     T* operator = (T* value) {
         this->value = value;
         asigned = true;
+        return value;
+    }
+
+    operator T* () {
         return value;
     }
 

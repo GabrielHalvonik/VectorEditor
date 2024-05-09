@@ -58,3 +58,44 @@ QStatusBar {
 
 #LeftToolBar QWidget { background-color: transparent; }
 #LeftToolBar QScrollArea { background-color: rgba(50, 50, 55, 255); }
+
+QScrollArea { border: 0px solid transparent; background-color: rgba(60, 60, 64, 255); }
+QScrollArea QWidget { margin: 0px; padding: 0px; border: 0px solid transparent; background-color: rgba(60, 60, 65, 255); }
+
+QTabBar::tab {
+    width: 120px;
+    height: 20px;
+    border-right: 1px inset rgba(5, 5, 5, 255);
+
+margin-left: -1px;
+    border-left: 1px inset rgba(5, 5, 5, 255);
+    color: rgb(140, 140, 140);
+    background-color: rgba(60, 60, 65, 255);
+}
+
+QTabBar::tab:selected {
+    background-color: rgb(84, 82, 88);
+    color: rgb(180, 180, 180);
+}
+
+QTabBar::tab:pressed {
+    background-color: rgb(66, 66, 70);
+}
+
+QTabBar::close-button {
+    subcontrol-position: right;
+}
+
+#TabBarAddTabButton {
+    color: rgb(160, 160, 160);
+}
+
+#TabBarAddTabButton:hover {
+    background-color: rgb(66, 66, 70);
+    color: rgb(180, 180, 180);
+}
+
+#TabBarAddTabButton:pressed {
+    background-color: rgb(84, 82, 88);
+    color: rgb(180, 180, 180);
+}

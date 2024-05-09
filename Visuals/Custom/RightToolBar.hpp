@@ -6,7 +6,7 @@
 
 #include "../../Utilities/General.hpp"
 
-namespace Visuals::Basics {
+namespace Visuals::Custom {
 
     struct RightToolBar : QToolBar {
 

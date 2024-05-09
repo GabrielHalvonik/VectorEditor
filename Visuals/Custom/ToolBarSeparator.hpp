@@ -14,7 +14,7 @@ enum class Orientation {
     Vertical
 };
 
-namespace Visuals::Basics {
+namespace Visuals::Custom {
 
     struct SeparatorElement : QFrame {
 
@@ -32,8 +32,7 @@ namespace Visuals::Basics {
 
 }
 
-
-namespace Visuals::Basics {
+namespace Visuals::Custom {
 
     struct ToolBarSeparator : QFrame {
 
