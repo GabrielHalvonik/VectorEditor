@@ -24,6 +24,7 @@ namespace Visuals::Basics {
     struct LeftToolBar : QScrollArea {
 
         parametrize (LeftToolBar) {
+            parameter <QWidget*> { affect (QWidget::setParent) } parent;
             parameter <int> { affect (QToolBar::setFixedWidth) } width;
             parameter <int> { affect (QToolBar::setFixedHeight) } height;
             parameter <QLayout*> { affect (QWidget::setLayout) } layout;
@@ -39,7 +40,7 @@ namespace Visuals::Basics {
             this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-            // this->setStyleSheet("QWidget { background-color: transparent; } QScrollArea { background-color: red; }");
+            // this->setStyleSheet("QWidget { background-color: transparent; } QScrollArea { background-color: orange; }");
             // area->setFixedSize(32, 14*32);
             auto w = new QWidget();
             auto layout = new QVBoxLayout();

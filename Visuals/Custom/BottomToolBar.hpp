@@ -24,6 +24,7 @@ namespace Visuals::Basics {
     struct BottomToolBar : QWidget {
 
         parametrize (BottomToolBar) {
+            parameter <QWidget*> { affect (QWidget::setParent) } parent;
             parameter <int> { affect (QToolBar::setFixedWidth) } width;
             parameter <int> { affect (QToolBar::setFixedHeight) } height;
             parameter <QLayout*> { affect (QWidget::setLayout) } layout;

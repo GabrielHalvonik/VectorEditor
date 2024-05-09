@@ -57,3 +57,4 @@ QStatusBar {
 }
 
 #LeftToolBar QWidget { background-color: transparent; }
+#LeftToolBar QScrollArea { background-color: rgba(50, 50, 55, 255); }
