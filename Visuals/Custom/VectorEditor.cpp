@@ -24,8 +24,8 @@ VectorEditor::VectorEditor() : QFrame() {
 
     layout->addWidget(new EditorTabBar() );
     layout->addWidget(new VectorEditorView ({
-        .scene = new QGraphicsScene(0, 0, 1000, 800)
-                                                         // .scene = new QGraphicsScene(0, 0, 800, 500)
+        .scene = new QGraphicsScene(0, 0, 1000, 1800)
+        // .scene = new QGraphicsScene(0, 0, 800, 500)
       }));
 
             //     auto bar = new QTabWidget(this);

@@ -153,28 +153,6 @@ namespace Visuals::Custom {
             }
             {
                 auto tb = new ToolButton();
-                tb->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::AppointmentNew));
-                tb->setStyleSheet("QToolButton { border: 0px; background-color: transparent; }"
-                                  "QToolButton:pressed { border: 0px; background-color: rgba(100, 100, 100, 100); }");
-                // tb->setStyleSheet("QToolButton {background-color: transparent;}");
-                tb->setFixedSize(32, 32);
-                layout->addWidget(tb);
-                // tb->setGeometry(0, 7*32, 32, 32);
-                // tb->setParent(this);
-            }
-            {
-                auto tb = new ToolButton();
-                tb->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::FolderVisiting));
-                tb->setStyleSheet("QToolButton { border: 0px; background-color: transparent; }"
-                                  "QToolButton:pressed { border: 0px; background-color: rgba(100, 100, 100, 100); }");
-                // tb->setStyleSheet("QToolButton {background-color: transparent;}");
-                tb->setFixedSize(32, 32);
-                layout->addWidget(tb);
-                // tb->setGeometry(0, 8*32, 32, 32);
-                // tb->setParent(this);
-            }
-            {
-                auto tb = new ToolButton();
                 tb->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::MediaTape));
                 tb->setStyleSheet("QToolButton { border: 0px; background-color: transparent; }"
                                   "QToolButton:pressed { border: 0px; background-color: rgba(100, 100, 100, 100); }");
