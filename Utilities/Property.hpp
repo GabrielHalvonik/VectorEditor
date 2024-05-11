@@ -61,3 +61,6 @@ private:
     T* value { };
     bool asigned { false };
 };
+
+template <typename T>
+struct field : public Property<T> { };

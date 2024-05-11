@@ -9,6 +9,9 @@
 #include <QScrollBar>
 #include <QStackedLayout>
 #include <QSlider>
+#include <QPainter>
+#include <QVariant>
+#include <QStyle>
 
 #include "../../Utilities/General.hpp"
 
@@ -80,8 +83,15 @@ namespace Visuals::Custom {
 
             EditorTabBar* parent;
 
-            ScrollableTabBar(EditorTabBar* parent = nullptr) : QTabBar(parent), parent(parent) { }
+            ScrollableTabBar(EditorTabBar* parent = nullptr) : QTabBar(parent), parent(parent) {
+                QTabBar::setDrawBase(false);
+            }
+
             virtual ~ScrollableTabBar() { }
+
+            void tabInserted(int index) override {
+                QTabBar::setTabButton(index, QTabBar::ButtonPosition::RightSide, new CustomCloseButton(this));
+            }
 
             void wheelEvent(QWheelEvent* event) override {
                 if (parent != nullptr) {
@@ -90,6 +100,49 @@ namespace Visuals::Custom {
                     QTabBar::wheelEvent(event);
                 }
             }
+
+            struct CustomCloseButton : public QPushButton {
+
+                CustomCloseButton(QWidget* parent = nullptr) : QPushButton(parent) {
+                    QObject::setObjectName("TabBarCloseButton");
+                }
+
+                void mousePressEvent(QMouseEvent* event) override { QPushButton::mousePressEvent(event); pressed = true; repaint(); }
+                void mouseReleaseEvent(QMouseEvent* event) override { QPushButton::mouseReleaseEvent(event); pressed = false; repaint(); }
+                void enterEvent(QEnterEvent* event) override { QPushButton::enterEvent(event); hovered = true; }
+                void leaveEvent(QEvent* event) override { QPushButton::leaveEvent(event); hovered = false; }
+
+                void paintEvent(QPaintEvent* event) override {
+                    QPainter painter(this);
+                    painter.setRenderHint(QPainter::Antialiasing);
+
+                    if (pressed) {
+                        painter.setBrush(QColor(200, 100, 100));
+                    } else
+                    if (hovered) {
+                        painter.setBrush(QColor(100, 100, 100));
+                    }
+                    painter.setPen(Qt::NoPen);
+                    painter.drawRoundedRect(rect(), 2, 2);
+                    painter.setPen(Qt::gray);
+
+                    int lineLength = 7;
+                    int centerX = width() / 2;
+                    int centerY = height() / 2;
+
+                    QPainterPath path;
+                    path.moveTo(centerX - lineLength / 2, centerY - lineLength / 2);
+                    path.lineTo(centerX + lineLength / 2, centerY + lineLength / 2);
+                    path.moveTo(centerX + lineLength / 2, centerY - lineLength / 2);
+                    path.lineTo(centerX - lineLength / 2, centerY + lineLength / 2);
+                    painter.drawPath(path);
+                }
+
+            private:
+                bool pressed { };
+                bool hovered { };
+            };
+
         } * tabBar = new ScrollableTabBar { this };
 
     };

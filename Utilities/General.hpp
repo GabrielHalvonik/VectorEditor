@@ -56,8 +56,9 @@ using list = std::initializer_list<T>;
 
 
 
-#define property Property
+// #define property Property
 #define observable Observable
+
 
 
 #define bind(item) Bind { item }

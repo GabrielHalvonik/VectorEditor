@@ -25,8 +25,8 @@ namespace Visuals::Custom {
     private:
         observable <const QSize&> editorViewSizeObservable;
 
-        property <LeftToolBar*> leftToolBar;
-        property <BottomToolBar*> bottomToolBar;
+        field <LeftToolBar*> leftToolBar;
+        field <BottomToolBar*> bottomToolBar;
     };
 
 }
