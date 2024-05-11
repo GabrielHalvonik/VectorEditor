@@ -8,8 +8,10 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QPainter>
+#include <QStyle>
 
 #include "../../Utilities/General.hpp"
+#include "../General/Styles.hpp"
 
 #include "../Basics/PushButton.hpp"
 
@@ -28,15 +30,14 @@ namespace Visuals::Custom {
             this->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
             this->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
 
-            // tabBar->setTabButton();
-            tabBar->addTab("A");
-            tabBar->addTab("B");
-            tabBar->addTab("C");
-            tabBar->addTab("D");
-            tabBar->addTab("E");
-            tabBar->addTab("F");
-            tabBar->addTab("G");
-            tabBar->addTab("H");
+            // tabBar->addTab("A");
+            // tabBar->addTab("B");
+            // tabBar->addTab("C");
+            // tabBar->addTab("D");
+            // tabBar->addTab("E");
+            // tabBar->addTab("F");
+            // tabBar->addTab("G");
+            // tabBar->addTab("H");
 
             QObject::connect(tabBar, &QTabBar::tabCloseRequested, this, [this](int index) {
                 tabBar->removeTab(index);
@@ -58,11 +59,12 @@ namespace Visuals::Custom {
                 .height = barHeight,
                 .text = { "+" },
                 .clicked = {
-                    [](bool state) {
-                        qInfo() << "clck";
+                    [this](bool state) {
+                        tabBar->addTab("X");
                     }
                 }
             }));
+
             inner->setLayout(layout);
 
             this->setWidget(inner);
@@ -79,6 +81,8 @@ namespace Visuals::Custom {
             EditorTabBar* parent { };
 
             ScrollableTabBar(EditorTabBar* parent = nullptr) : QTabBar(parent), parent(parent) {
+                QObject::setObjectName("ScrollableTabBar");
+
                 QTabBar::setDrawBase(false);
             }
 
@@ -86,14 +90,16 @@ namespace Visuals::Custom {
 
             void tabInserted(int index) override {
                 QTabBar::tabInserted(index);
+
                 QTabBar::setTabButton(index, QTabBar::ButtonPosition::RightSide,
                     new CustomCloseButton ({
                         .parent = this,
                         .size = 12,
                         .clicked = {
-                            [this, index](bool value) {
-                                // QTabBar::tabCloseRequested(QTabBar::tabAt({ 200, 20 }));
-                                // QTabBar::tabCloseRequested(index);
+                            delegate {
+                                 if (auto self = reinterpret_cast<PushButton*>(source); self != nullptr) {
+                                     QTabBar::tabCloseRequested(QTabBar::tabAt(self->pos()));
+                                 }
                             }
                         },
                     })
@@ -157,7 +163,16 @@ namespace Visuals::Custom {
 
                 bool pressed { };
                 bool hovered { };
+
             };
+        protected:
+            void tabLayoutChange() override {
+                if (QTabBar::count() == 0) {
+                    Styles::set(this, Styles::Fulfillment, Styles::Fulfillment.Values.Empty);
+                } else {
+                    Styles::set(this, Styles::Fulfillment, Styles::Fulfillment.Values.Filled);
+                }
+            }
 
         } * tabBar = new ScrollableTabBar { this };
 

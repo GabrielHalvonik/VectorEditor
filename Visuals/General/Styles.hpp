@@ -38,6 +38,16 @@ namespace Styles {
 
     } TextLength;
 
+    struct {
+        string name { "Fulfillment" };
+
+        struct {
+            string Empty { "Empty" };
+            string Filled { "Filled" };
+        } Values;
+
+    } Fulfillment;
+
 }
 
 namespace Styles {

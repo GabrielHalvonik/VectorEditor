@@ -62,6 +62,10 @@ QStatusBar {
 QScrollArea { border: 0px solid transparent; background-color: rgba(60, 60, 64, 255); }
 QScrollArea QWidget { margin: 0px; padding: 0px; border: 0px solid transparent; background-color: rgba(60, 60, 65, 255); }
 
+#ScrollableTabBar[Fulfillment="Empty"] {
+    max-width: 0px;
+}
+
 QTabBar::tab {
     width: 120px;
     height: 20px;
