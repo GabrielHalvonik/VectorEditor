@@ -9,9 +9,9 @@ namespace Visuals::Basics {
     struct ToolBar : QToolBar {
 
         parametrize (ToolBar) {
-            parameter <int> { affect(QToolBar::setFixedWidth) } width;
-            parameter <int> { affect(QToolBar::setFixedHeight) } height;
-            parameter <const list<QAction*>&> { affect(ToolBar::addActions) } actions;
+            parameter <int> { affect (QToolBar::setFixedWidth) } width;
+            parameter <int> { affect (QToolBar::setFixedHeight) } height;
+            parameter <const list<QAction*>&> { affect (ToolBar::addActions) } actions;
         };
 
         ToolBar() { }

@@ -7,11 +7,7 @@
 #include <QApplication>
 #include <QPushButton>
 #include <QScrollBar>
-#include <QStackedLayout>
-#include <QSlider>
 #include <QPainter>
-#include <QVariant>
-#include <QStyle>
 
 #include "../../Utilities/General.hpp"
 
@@ -23,7 +19,7 @@ namespace Visuals::Custom {
 
     struct EditorTabBar : QScrollArea {
 
-        EditorTabBar() {
+        EditorTabBar(QWidget* parent = nullptr) : QScrollArea(parent) {
             QScrollArea::setFixedHeight(barHeight);
             tabBar->setFixedHeight(barHeight);
 
@@ -43,7 +39,7 @@ namespace Visuals::Custom {
             tabBar->addTab("H");
 
             QObject::connect(tabBar, &QTabBar::tabCloseRequested, this, [this](int index) {
-                qInfo() << "tab requested to close: " << index;
+                tabBar->removeTab(index);
             });
 
             tabBar->setMovable(true);
@@ -73,7 +69,6 @@ namespace Visuals::Custom {
         }
 
         virtual ~EditorTabBar() { }
-        // QWidget interface
 
     private:
 
@@ -81,7 +76,7 @@ namespace Visuals::Custom {
 
         struct ScrollableTabBar : QTabBar {
 
-            EditorTabBar* parent;
+            EditorTabBar* parent { };
 
             ScrollableTabBar(EditorTabBar* parent = nullptr) : QTabBar(parent), parent(parent) {
                 QTabBar::setDrawBase(false);
@@ -90,7 +85,19 @@ namespace Visuals::Custom {
             virtual ~ScrollableTabBar() { }
 
             void tabInserted(int index) override {
-                QTabBar::setTabButton(index, QTabBar::ButtonPosition::RightSide, new CustomCloseButton(this));
+                QTabBar::tabInserted(index);
+                QTabBar::setTabButton(index, QTabBar::ButtonPosition::RightSide,
+                    new CustomCloseButton ({
+                        .parent = this,
+                        .size = 12,
+                        .clicked = {
+                            [this, index](bool value) {
+                                // QTabBar::tabCloseRequested(QTabBar::tabAt({ 200, 20 }));
+                                // QTabBar::tabCloseRequested(index);
+                            }
+                        },
+                    })
+                );
             }
 
             void wheelEvent(QWheelEvent* event) override {
@@ -103,7 +110,13 @@ namespace Visuals::Custom {
 
             struct CustomCloseButton : public QPushButton {
 
-                CustomCloseButton(QWidget* parent = nullptr) : QPushButton(parent) {
+                parametrize (CustomCloseButton) {
+                    parameter <QWidget*> { affect (QWidget::setParent) } parent;
+                    parameter <int> { affect (CustomCloseButton::setSize) } size;
+                    connection <bool, QPushButton> { subscribe (QPushButton::clicked) } clicked;
+                };
+
+                CustomCloseButton() : QPushButton() {
                     QObject::setObjectName("TabBarCloseButton");
                 }
 
@@ -118,15 +131,14 @@ namespace Visuals::Custom {
 
                     if (pressed) {
                         painter.setBrush(QColor(200, 100, 100));
-                    } else
-                    if (hovered) {
+                    } else if (hovered) {
                         painter.setBrush(QColor(100, 100, 100));
                     }
                     painter.setPen(Qt::NoPen);
                     painter.drawRoundedRect(rect(), 2, 2);
                     painter.setPen(Qt::gray);
 
-                    int lineLength = 7;
+                    int lineLength = size * 0.6;
                     int centerX = width() / 2;
                     int centerY = height() / 2;
 
@@ -138,7 +150,11 @@ namespace Visuals::Custom {
                     painter.drawPath(path);
                 }
 
+                inline void setSize(int value) { QPushButton::setFixedSize(size, size);  size = value; }
+
             private:
+                int size = 12;
+
                 bool pressed { };
                 bool hovered { };
             };

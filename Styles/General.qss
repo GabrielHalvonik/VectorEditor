@@ -95,9 +95,3 @@ QTabBar::tab:pressed {
     background-color: rgb(84, 82, 88);
     color: rgb(180, 180, 180);
 }
-
-#TabBarCloseButton {
-color: red;
-    width: 12px; height: 12px;
-    background-color: rgb(184, 82, 188);
-}
