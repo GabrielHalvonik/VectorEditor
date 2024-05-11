@@ -56,7 +56,8 @@ using list = std::initializer_list<T>;
 
 
 
-// #define property Property
+// #define property Property    // due to QObject::property collision use "field" instead
+#define field Property
 #define observable Observable
 
 

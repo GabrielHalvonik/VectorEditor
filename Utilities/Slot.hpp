@@ -14,14 +14,16 @@ struct Slot : IBindable {
     Slot() { }
     Slot(Observable<P>& observable) : observable(&observable) { }
     Slot(std::function<void(P)>&& item) : value(std::move(item)), asigned(true) { }
+    Slot(std::function<void(void*, P)>&& item) : valueWithSource(std::move(item)) { }
 
     int binds(void* item) override {
         if (auto source = reinterpret_cast<T*>(item); source != nullptr) {
             if (asigned) {
                 QObject::connect(source, function(), value);
-            }
-            if (observable != nullptr) {
+            } else if (observable != nullptr) {
                 QObject::connect(source, function(), std::bind(&Observable<P>::asign, observable, std::placeholders::_1));
+            } else {
+                QObject::connect(source, function(), std::bind(valueWithSource, source, std::placeholders::_1));
             }
         }
         return sizeof(Slot<P, T>);
@@ -33,6 +35,7 @@ protected:
 private:
     Observable<P>* observable { nullptr };
     std::function<void(P)> value { };
+    std::function<void(void*, P)> valueWithSource { };
     bool asigned { false };
 };
 
@@ -44,14 +47,16 @@ struct Slot<const P&, T> : IBindable {
     Slot() { }
     Slot(Observable<P>& observable) : observable(&observable) { }
     Slot(std::function<void(const P&)>&& item) : value(std::move(item)), asigned(true) { }
+    Slot(std::function<void(void*, const P&)>&& item) : valueWithSource(std::move(item)) { }
 
     int binds(void* item) override {
         if (auto source = reinterpret_cast<T*>(item); source != nullptr) {
             if (asigned) {
                 QObject::connect(source, function(), value);
-            }
-            if (observable != nullptr) {
+            } else if (observable != nullptr) {
                 QObject::connect(source, function(), std::bind(&Observable<P>::asign, observable, std::placeholders::_1));
+            } else {
+                QObject::connect(source, function(), std::bind(valueWithSource, source, std::placeholders::_1));
             }
         }
         return sizeof(Slot<const P&, T>);
@@ -63,5 +68,6 @@ protected:
 private:
     Observable<P>* observable { nullptr };
     std::function<void(const P&)> value { };
+    std::function<void(void*, const P&)> valueWithSource { };
     bool asigned { false };
 };
