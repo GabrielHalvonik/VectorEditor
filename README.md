@@ -8,7 +8,20 @@ Disclaimer: This repository is primarily my thought process focused on integrati
   - #### Observable\<T\>
     - Property of type (T) with similar functionality as **Event\<T\>** but can also be binded to **parameter\<T\>** for automatic function triggering and also can be used for custom anonymous binding (see later)
   - #### Property\<T\>
-    - Wrapper for class attribute member with overloaded operators
+    - Wrapper for class attribute member with custom getter / setter accessors
+    - getter / setter accessors are optional, you can omit none/one/both
+    - it is required to specify setter in first position (if custom setter is provided) ... (some compilers are more strict about this rule)
+    - *setter*'s { scope } has 2 accessible parameters.
+      - *value* : represents parameter passed in during property assignment process
+      - *field* : represents property's backing field value should be assigned to (generally)
+    - *getter*'s { scope } has 1 accessible parameter.
+      - *field* : represents property's backing field that stores value to return (generally)
+      ```c++
+        property <int> myProperty {
+            setter { field = value + 20; },
+            getter { return field - 10; }
+        };
+      ```
 
 
 ### Object parametrization 
