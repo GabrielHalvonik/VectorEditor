@@ -24,7 +24,14 @@ VectorEditor::VectorEditor() : QFrame() {
 
     layout->addWidget(new EditorTabBar() );
     layout->addWidget(new VectorEditorView ({
-        .scene = new QGraphicsScene(0, 0, 1000, 1800)
+        .scene = new QGraphicsScene(0, 0, 1000, 1800),
+        .sizeChanged = {
+            delegate {
+                if (auto self = reinterpret_cast<VectorEditorView*>(source); source != nullptr) {
+
+                }
+            }
+        }
         // .scene = new QGraphicsScene(0, 0, 800, 500)
       }));
 
