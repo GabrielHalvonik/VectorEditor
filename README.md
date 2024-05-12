@@ -5,17 +5,21 @@ Disclaimer: This repository is primarily my thought process focused on integrati
 #### General types:
   - #### Event\<T\>
     - Custom event implementation to register handlers to event parameter (T) changes (replacement for Qt's signal-slot mechanism without reflection involvement)
+    - detailed usage bellow
   - #### Observable\<T\>
-    - Property of type (T) with similar functionality as **Event\<T\>** but can also be binded to **parameter\<T\>** for automatic function triggering and also can be used for custom anonymous binding (see later)
+    - Property of type (T) with similar functionality as **Event\<T\>** but can also be binded to **parameter\<T\>** for automatic function triggering and also can be used for custom anonymous 
+binding
+    - detailed usage bellow
   - #### Property\<T\>
     - Wrapper for class attribute member with custom getter / setter accessors
     - getter / setter accessors are optional, you can omit none/one/both
-    - it is required to specify setter in first position (if custom setter is provided) ... (some compilers are more strict about this rule)
+    - it is required to specify setter in first position (if custom setter is provided) ... (some compilers are less strict about this rule)
     - *setter*'s { scope } has 2 accessible parameters.
       - *value* : represents parameter passed in during property assignment process
       - *field* : represents property's backing field value should be assigned to (generally)
     - *getter*'s { scope } has 1 accessible parameter.
       - *field* : represents property's backing field that stores value to return (generally)
+    - example
       ```c++
         property <int> myProperty {
             setter { field = value + 20; },
@@ -86,7 +90,7 @@ In order to use object construction with [designated initializers](https://en.cp
        });
     ```
 
-- ### (2) Handler  (general C++)
+- ### (2) Handler (general C++)
   - structure:
     ```c++
     parametrize (ClassName) {
@@ -103,12 +107,28 @@ In order to use object construction with [designated initializers](https://en.cp
            handler <const QSize&> { attach (Widget::sizeChangedEvent) } sizeChanged;
        };
     ```
-    - usage
-     ```c++
-       Widget ({
-          .sizeChanged = { [](const QSize&) { ...reaction code... } }
-       });
-    ```
+    - usage (two possible handler types to attach)
+      - basic handler with <T> parameter
+       ```c++
+         Widget ({
+            .sizeChanged = { [](const QSize&) { ...reaction code... } }
+         });
+      ```
+      - handler with <void*, T> parameters, where void* represents pointer to object that has been parametrized
+       ```c++
+         Widget ({
+            .sizeChanged = { [](void* source, const QSize& value) { ...reaction code... } }
+         });
+      ```
+         - common practice (casting void* to parameter source's type)
+            ```c++
+               [](void* source, const QSize& value) { 
+                   if (auto self = reinterpret_cast<SourceType*>(source); self != nullptr) {
+                       // code to process source's reference
+                   }
+               }
+            ```
+        - as ```[](void* source, const QSize& value)``` may be too tedious to write, there is ```delegate``` macro available (uses auto parameter type, may confuse code completion)
 
  - ### (3) Connection  (Qt-framework specific)
     - structure:
@@ -134,6 +154,29 @@ In order to use object construction with [designated initializers](https://en.cp
             .textChanged = { [](const QString&) { ...reaction code... } }
          });
       ```
+
+      - usage (two possible connection types to attach to signal)
+      - basic connection with <T> parameter
+       ```c++
+         LineEdit ({
+            .textChanged = { [](const QString&) { ...reaction code... } }
+         });
+      ```
+      - connection with <void*, T> parameters, where void* represents pointer to object that has been parametrized
+       ```c++
+         LineEdit ({
+            .textChanged = { [](void* source, const QString& value) { ...reaction code... } }
+         });
+      ```
+         - common practice (casting void* to parameter source's type)
+            ```c++
+               [](void* source, const QString& value) { 
+                   if (auto self = reinterpret_cast<SourceType*>(source); self != nullptr) {
+                       // code to process source's reference
+                   }
+               }
+            ```
+        - as ```[](void* source, const QSize& value)``` may be too tedious to write, there is ```delegate``` macro available (uses auto parameter type, may confuse code completion)
 
 #### Additional features:
 - Binding **observable \<T\>** into **parameter \<T\>**
