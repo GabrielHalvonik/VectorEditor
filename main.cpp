@@ -6,6 +6,11 @@
 
 int main(int argc, char *argv[]) {
 
+    property <int> myProperty {
+        setter { field = value + 20; },
+        getter { return field - 10; }
+    };
+
     QApplication app(argc, argv);
 
     QApplication::setStyle(QStyleFactory::create("Fusion"));

@@ -9,11 +9,14 @@
 #include <QScrollBar>
 #include <QPainter>
 #include <QStyle>
+#include <QDialog>
+#include <QSlider>
 
 #include "../../Utilities/General.hpp"
 #include "../General/Styles.hpp"
-
 #include "../Basics/PushButton.hpp"
+#include "../Basics/Dialog.hpp"
+#include "../Basics/VerticalBoxLayout.hpp"
 
 using namespace Visuals::Basics;
 
@@ -21,7 +24,13 @@ namespace Visuals::Custom {
 
     struct EditorTabBar : QScrollArea {
 
+        // Property <int> prop;
+
         EditorTabBar(QWidget* parent = nullptr) : QScrollArea(parent) {
+            // prop = 2;
+            // qInfo() << prop;
+
+
             QScrollArea::setFixedHeight(barHeight);
             tabBar->setFixedHeight(barHeight);
 
@@ -60,6 +69,25 @@ namespace Visuals::Custom {
                 .text = { "+" },
                 .clicked = {
                     [this](bool state) {
+                                                      QPushButton* a;
+                                                      QPushButton* b;
+                        auto dialog = Dialog ({
+                            // .parent = this,
+                                .layout = new VerticalBoxLayout ({
+                                    .items = {
+                                        a = new QPushButton("A"),
+                                        new QSlider(),
+                                        b = new QPushButton("B"),
+                                    }
+                                })
+                         });
+                        QObject::connect(a, &QPushButton::clicked, &dialog, &QDialog::accept);
+                        QObject::connect(b, &QPushButton::clicked, &dialog, &QDialog::reject);
+                        // dialog.open();
+                        if (dialog.exec() == QDialog::Accepted) {
+                            qInfo() << "A";
+                        }
+
                         tabBar->addTab("X");
                     }
                 }
@@ -84,6 +112,10 @@ namespace Visuals::Custom {
                 QObject::setObjectName("ScrollableTabBar");
 
                 QTabBar::setDrawBase(false);
+
+                QObject::connect(this, &QTabBar::tabBarDoubleClicked, this, [this](int index) {
+                    qInfo() << "? " << index;
+                });
             }
 
             virtual ~ScrollableTabBar() { }
@@ -114,6 +146,14 @@ namespace Visuals::Custom {
                 }
             }
 
+            void tabLayoutChange() override {
+                if (QTabBar::count() == 0) {
+                    Styles::set(this, Styles::Fulfillment, Styles::Fulfillment.Values.Empty);
+                } else {
+                    Styles::set(this, Styles::Fulfillment, Styles::Fulfillment.Values.Filled);
+                }
+            }
+
             struct CustomCloseButton : public QPushButton {
 
                 parametrize (CustomCloseButton) {
@@ -135,14 +175,18 @@ namespace Visuals::Custom {
                     QPainter painter(this);
                     painter.setRenderHint(QPainter::Antialiasing);
 
+                    painter.setPen(Qt::NoPen);
                     if (pressed) {
                         painter.setBrush(QColor(200, 100, 100));
+                        painter.drawRoundedRect(rect(), 2, 2);
+                        painter.setPen(QColor(160, 160, 160));
                     } else if (hovered) {
                         painter.setBrush(QColor(100, 100, 100));
+                        painter.drawRoundedRect(rect(), 2, 2);
+                        painter.setPen(QColor(160, 160, 160));
+                    } else {
+                        painter.setPen(QColor(120, 120, 120));
                     }
-                    painter.setPen(Qt::NoPen);
-                    painter.drawRoundedRect(rect(), 2, 2);
-                    painter.setPen(Qt::gray);
 
                     int lineLength = size * 0.6;
                     int centerX = width() / 2;
@@ -165,14 +209,6 @@ namespace Visuals::Custom {
                 bool hovered { };
 
             };
-        protected:
-            void tabLayoutChange() override {
-                if (QTabBar::count() == 0) {
-                    Styles::set(this, Styles::Fulfillment, Styles::Fulfillment.Values.Empty);
-                } else {
-                    Styles::set(this, Styles::Fulfillment, Styles::Fulfillment.Values.Filled);
-                }
-            }
 
         } * tabBar = new ScrollableTabBar { this };
 
