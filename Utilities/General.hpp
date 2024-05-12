@@ -14,6 +14,9 @@ using std::vector;
 using std::string;
 
 template <typename T>
+using property = Property<T>;
+
+template <typename T>
 using list = std::initializer_list<T>;
 
 #define parameters struct Parameters
@@ -55,9 +58,7 @@ using list = std::initializer_list<T>;
 #define handler struct : DeducedHandler
 
 
-
-// #define property Property    // due to QObject::property collision use "field" instead
-#define field Property
+// #define field Field
 #define observable Observable
 
 
@@ -67,5 +68,6 @@ using list = std::initializer_list<T>;
 
 #define delegate [this](void* source, auto value)
 
-// #define qobject \
-// Q_OBJECT
+
+#define setter .setter = [](auto& field, auto value)
+#define getter .getter = [](auto& field) -> auto

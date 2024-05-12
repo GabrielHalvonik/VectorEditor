@@ -3,61 +3,45 @@
 #include <utility>
 
 template <typename T>
-struct Property {
-
-    T operator->() const {
-        return value;
-    }
-
-    T getValue() const {
-        return value;
-    }
-
-    T operator = (T value) {
-        this->value = value;
-        asigned = true;
-        return this->value;
-    }
-
-    T operator = (T&& value) {
-        this->value = std::move(value);
-        asigned = true;
-        return this->value;
-    }
-
-    operator T () {
-        return value;
-    }
-
-private:
-    T value { };
-    bool asigned { false };
+struct FieldBase {
+protected:
+    T field;
 };
 
-
-
 template <typename T>
-struct Property<T*> {
+struct Property : FieldBase<T> {
 
-    T* operator->() const {
-        return value;
+    std::optional<void(*)(T& field, T value)> setter { };
+    std::optional<T(*)(T& field)> getter { };
+
+    inline void set(T value) {
+        qInfo() << "Property::set";
+        if (setter.has_value()) {
+            setter.value()(this->field, value);
+        } else {
+            this->field = value;
+        }
     }
 
-    T* getValue() const {
-        return value;
+    inline T get() {
+        qInfo() << "Property::get";
+        if (getter.has_value()) {
+            return getter.value()(this->field);
+        } else {
+            return this->field;
+        }
     }
 
-    T* operator = (T* value) {
-        this->value = value;
-        asigned = true;
-        return value;
+    Property<T>& operator = (Property<T>& second) {
+        set(second.get());
+        return *this;
     }
 
-    operator T* () {
-        return value;
+    Property<T>& operator = (T value) {
+        set(value);
+        return *this;
     }
 
-private:
-    T* value { };
-    bool asigned { false };
+    operator T () { return get(); }
+
 };
