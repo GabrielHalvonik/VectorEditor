@@ -11,8 +11,12 @@ struct Event {
         handlers.push_back(std::move(item));
     }
 
-    void operator+=(const HandlerType& item) {
+    void operator += (const HandlerType& item) {
         handlers.push_back(item);
+    }
+
+    void operator += (HandlerType&& item) {
+        handlers.push_back(std::move(item));
     }
 
     template <typename S>
@@ -35,3 +39,4 @@ struct Event {
 private:
     std::vector<HandlerType> handlers;
 };
+

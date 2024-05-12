@@ -13,16 +13,16 @@ struct Handler : IBindable {
 
     Handler(Observable<P>& observable) : observable(&observable) { }
     Handler(std::function<void(P)>&& item) : value(std::move(item)), asigned(true) { }
-    // Handler(const std::function<void(P)>& item) : value(item) { asigned = true; }
-    // Handler(const std::function<void(P)>& item) : value(item), asigned(true) { }
+    Handler(std::function<void(void*, P)>&& item) : valueWithSource(std::move(item)) { }
 
     int binds(void* item) override {
         if (auto source = reinterpret_cast<T*>(item); source != nullptr) {
             if (asigned) {
                 source->*function() += value;
-            }
-            if (observable != nullptr) {
+            } else if (observable != nullptr) {
                 source->*function() += std::bind(&Observable<P>::asign, observable, std::placeholders::_1);
+            } else if (valueWithSource.has_value()) {
+                source->*function() += std::bind(valueWithSource.value(), source, std::placeholders::_1);
             }
         }
 
@@ -34,6 +34,7 @@ protected:
 
 private:
     Observable<P>* observable { nullptr };
-    std::function<void(P)> value;
+    std::function<void(P)> value { };
+    std::optional<std::function<void(void*, P)>> valueWithSource { };
     bool asigned { false };
 };
