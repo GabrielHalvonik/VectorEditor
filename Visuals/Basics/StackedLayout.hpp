@@ -9,10 +9,10 @@ namespace Visuals::Basics {
 struct StackedLayout : QStackedLayout {
 
     parametrize (StackedLayout) {
-        parameter <const list<QWidget*>&> { affect(StackedLayout::addMultipleWidget) } items;
+        parameter <const list<QWidget*>&> { affect (StackedLayout::addMultipleWidget) } items;
     };
 
-    StackedLayout() : StackedLayout(Direction::TopToBottom) { }
+    StackedLayout() : StackedLayout() { }
 
     virtual ~StackedLayout() { }
 

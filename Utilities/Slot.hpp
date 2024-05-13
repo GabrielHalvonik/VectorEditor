@@ -22,8 +22,8 @@ struct Slot : IBindable {
                 QObject::connect(source, function(), value);
             } else if (observable != nullptr) {
                 QObject::connect(source, function(), std::bind(&Observable<P>::asign, observable, std::placeholders::_1));
-            } else {
-                QObject::connect(source, function(), std::bind(valueWithSource, source, std::placeholders::_1));
+            } else if (valueWithSource.has_value()) {
+                QObject::connect(source, function(), std::bind(valueWithSource.value(), source, std::placeholders::_1));
             }
         }
         return sizeof(Slot<P, T>);
@@ -35,7 +35,7 @@ protected:
 private:
     Observable<P>* observable { nullptr };
     std::function<void(P)> value { };
-    std::function<void(void*, P)> valueWithSource { };
+    std::optional<std::function<void(void*, P)>> valueWithSource { };
     bool asigned { false };
 };
 
@@ -55,8 +55,8 @@ struct Slot<const P&, T> : IBindable {
                 QObject::connect(source, function(), value);
             } else if (observable != nullptr) {
                 QObject::connect(source, function(), std::bind(&Observable<P>::asign, observable, std::placeholders::_1));
-            } else {
-                QObject::connect(source, function(), std::bind(valueWithSource, source, std::placeholders::_1));
+            } else if (valueWithSource.has_value()) {
+                QObject::connect(source, function(), std::bind(valueWithSource.value(), source, std::placeholders::_1));
             }
         }
         return sizeof(Slot<const P&, T>);
@@ -68,6 +68,6 @@ protected:
 private:
     Observable<P>* observable { nullptr };
     std::function<void(const P&)> value { };
-    std::function<void(void*, const P&)> valueWithSource { };
+    std::optional<std::function<void(void*, const P&)>> valueWithSource { };
     bool asigned { false };
 };

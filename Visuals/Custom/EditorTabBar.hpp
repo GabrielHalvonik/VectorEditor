@@ -11,12 +11,17 @@
 #include <QStyle>
 #include <QDialog>
 #include <QSlider>
+#include <QIntValidator>
 
 #include "../../Utilities/General.hpp"
 #include "../General/Styles.hpp"
 #include "../Basics/PushButton.hpp"
 #include "../Basics/Dialog.hpp"
+#include "../Basics/Widget.hpp"
+#include "../Basics/LineEdit.hpp"
+#include "../Basics/FormLayout.hpp"
 #include "../Basics/VerticalBoxLayout.hpp"
+#include "../Basics/HorizontalBoxLayout.hpp"
 
 using namespace Visuals::Basics;
 
@@ -69,26 +74,48 @@ namespace Visuals::Custom {
                 .text = { "+" },
                 .clicked = {
                     [this](bool state) {
-                                                      QPushButton* a;
-                                                      QPushButton* b;
+
+                        QPushButton* accept { };
+                        QPushButton* cancel { };
+                        LineEdit* nameLineEdit { };
+                        LineEdit* widthLineEdit { };
+                        LineEdit* heightLineEdit { };
+
                         auto dialog = Dialog ({
-                            // .parent = this,
-                                .layout = new VerticalBoxLayout ({
-                                    .items = {
-                                        a = new QPushButton("A"),
-                                        new QSlider(),
-                                        b = new QPushButton("B"),
-                                    }
-                                })
-                         });
-                        QObject::connect(a, &QPushButton::clicked, &dialog, &QDialog::accept);
-                        QObject::connect(b, &QPushButton::clicked, &dialog, &QDialog::reject);
-                        // dialog.open();
+                            .layout = new VerticalBoxLayout ({
+                                .items = {
+                                    new Widget ({
+                                        .layout = new FormLayout ({
+                                            .rows = {
+                                                { { "name" }, nameLineEdit = new LineEdit ({ .text = { "default" } }) },
+                                                { { "width" }, widthLineEdit = new LineEdit ({ .text = { "512" }, .validator = new QIntValidator() }) },
+                                                { { "height" }, heightLineEdit = new LineEdit ({ .text = { "512" }, .validator = new QIntValidator() }) },
+                                            }
+                                        })
+                                    }),
+                                    new Widget ({
+                                        .layout = new HorizontalBoxLayout ({
+                                            .items = {
+                                                accept = new QPushButton("Accept"),
+                                                cancel = new QPushButton("Cancel"),
+                                            }
+                                        })
+                                    }),
+                                }
+                            }),
+                        });
+
+                        QObject::connect(cancel, &QPushButton::clicked, &dialog, &QDialog::reject);
+                        QObject::connect(accept, &QPushButton::clicked, &dialog, &QDialog::accept);
+
                         if (dialog.exec() == QDialog::Accepted) {
-                            qInfo() << "A";
+                            auto name = nameLineEdit->text();
+                            int width = widthLineEdit->text().toInt();
+                            int height = heightLineEdit->text().toInt();
+                            qInfo() << width << " : " << height;
+                            tabBar->addTab(name);
                         }
 
-                        tabBar->addTab("X");
                     }
                 }
             }));
@@ -129,9 +156,9 @@ namespace Visuals::Custom {
                         .size = 12,
                         .clicked = {
                             delegate {
-                                 if (auto self = reinterpret_cast<PushButton*>(source); self != nullptr) {
-                                     QTabBar::tabCloseRequested(QTabBar::tabAt(self->pos()));
-                                 }
+                                if (auto self = reinterpret_cast<PushButton*>(source); self != nullptr) {
+                                    QTabBar::tabCloseRequested(QTabBar::tabAt(self->pos()));
+                                }
                             }
                         },
                     })

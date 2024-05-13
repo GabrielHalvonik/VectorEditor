@@ -51,6 +51,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Visuals/Custom/EditorTabBar.hpp
         Visuals/Basics/PushButton.hpp
         Visuals/Basics/Dialog.hpp
+        Visuals/Basics/FormLayout.hpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET VectorEditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

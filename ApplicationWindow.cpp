@@ -40,13 +40,6 @@ using namespace Visuals::Custom;
 
 ApplicationWindow::ApplicationWindow() {
     this->setWindowFlag(Qt::WindowType::CustomizeWindowHint,  true);
-    this->menuBar()->setLayout(new HorizontalBoxLayout ({
-        .items = {
-                                                            new QSlider(Qt::Orientation::Horizontal),
-                                                            new QSlider(Qt::Orientation::Horizontal),
-                                                            new QSlider(Qt::Orientation::Horizontal),
-        }
-    }));
 
     this->setStatusBar(new StatusBar ({
         .height = 24
